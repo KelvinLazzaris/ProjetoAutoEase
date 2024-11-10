@@ -76,8 +76,7 @@ export default function Login() {
         <button
           onClick={() => router.push('/')}
           className="mt-6 w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 rounded-lg font-semibold shadow-md transition duration-200"
-        >
-          Voltar para a Página Inicial
+        >Voltar para a Página Inicial
         </button>
       </div>
     </div>

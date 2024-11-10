@@ -34,12 +34,6 @@ export default function Register() {
 
   return (
     <div className="relative flex items-center justify-center h-screen bg-gray-100 overflow-hidden">
-      {/* Partículas de fundo */}
-      <div className="particle particle-small" style={{ top: '20%', left: '30%' }}></div>
-      <div className="particle particle-medium" style={{ top: '60%', left: '70%' }}></div>
-      <div className="particle particle-large" style={{ top: '40%', left: '20%' }}></div>
-      <div className="particle particle-small" style={{ top: '80%', left: '50%' }}></div>
-
       {/* Conteúdo principal da página */}
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md transform transition duration-500 ease-out opacity-0 animate-fadeIn">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Cadastro</h2>
@@ -76,7 +70,7 @@ export default function Register() {
           
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold shadow-lg button-hover button-pulse"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold shadow-lg transition duration-200"
           >
             Cadastrar
           </button>
@@ -84,10 +78,10 @@ export default function Register() {
         
         <div className="flex justify-between mt-4 text-sm text-gray-600">
           <Link href="/login">
-            <span className="hover-link cursor-pointer">Já tem uma conta? Faça login</span>
+            <span className="hover:underline cursor-pointer">Já tem uma conta? Faça login</span>
           </Link>
           <Link href="/">
-            <span className="hover-link cursor-pointer">Voltar para a Página Inicial</span>
+            <span className="hover:underline cursor-pointer">Voltar para a Página Inicial</span>
           </Link>
         </div>
       </div>
