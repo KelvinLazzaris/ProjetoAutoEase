@@ -1,23 +1,25 @@
 import Link from 'next/link';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaPhone, FaEnvelope } from 'react-icons/fa';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
-
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const router = useRouter();
 
   const handleLogin = (e) => {
     e.preventDefault();
     if (email === 'teste@teste.com' && password === '123456') {
-      alert('Login bem-sucedido!');
+      router.push('/dashboard'); // Redireciona para o dashboard
     } else {
       setError('Credenciais inválidas.');
     }
   };
+  
 
   return (
     <div
