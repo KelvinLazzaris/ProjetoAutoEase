@@ -26,7 +26,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Cabeçalho Responsivo */}
       <header className="bg-gray-800 text-white shadow-md py-4 px-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="max-w-8xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <img src="/images/logo-health.png" alt="Logo AutoEase" className="w-8 h-8" />
             <h1 className="text-2xl font-bold text-green-400">AutoEase</h1>
@@ -52,6 +52,7 @@ export default function Home() {
             <Link href="#testimonials" onClick={() => setMenuOpen(false)} className="block hover:text-green-400">Depoimentos</Link>
             <Link href="#contact" onClick={() => setMenuOpen(false)} className="block hover:text-green-400">Contato</Link>
             <Link href="#gallery" onClick={() => setMenuOpen(false)} className="block hover:text-green-400">Galeria</Link>
+            <Link href="/login" onClick={() => setMenuOpen(false)} className="block hover:text-green-400">Login</Link>
           </div>
         )}
       </header>
