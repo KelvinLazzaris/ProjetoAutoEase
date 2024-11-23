@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaPhone, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -10,6 +10,7 @@ export default function Login() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,8 +19,7 @@ export default function Login() {
     } else {
       setError('Credenciais inválidas.');
     }
-  };
-  
+  };   
 
   return (
     <div
@@ -34,7 +34,10 @@ export default function Login() {
       {/* Cabeçalho Responsivo */}
       <header className="bg-gray-800 text-white shadow-md py-4 px-6">
         <div className="max-w-8xl mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-2">
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => router.push("/")} // Navega para a tela inicial
+          >
             <img src="/images/logo-health.png" alt="Logo AutoEase" className="w-8 h-8" />
             <h1 className="text-2xl font-bold text-green-400">AutoEase</h1>
           </div>
@@ -56,32 +59,53 @@ export default function Login() {
 
       {/* Formulário de Login */}
       <div className="flex-grow flex items-center justify-center px-4 py-16">
-        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg bg-opacity-90">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
           {error && <p className="text-red-500 text-center mb-4">{error}</p>}
           <form onSubmit={handleLogin} className="space-y-4">
-            <div>
+            {/* Campo de E-mail */}
+            <div className="relative">
               <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">E-mail</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Digite seu e-mail"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
+              <div className="flex items-center border border-gray-300 rounded-md">
+                <span className="px-3 text-gray-500">
+                  <FaEnvelope />
+                </span>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Digite seu e-mail"
+                  className="w-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
             </div>
-            <div>
+
+            {/* Campo de Senha */}
+            <div className="relative">
               <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">Senha</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Digite sua senha"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
+              <div className="flex items-center border border-gray-300 rounded-md">
+                <span className="px-3 text-gray-500">
+                  <FaLock />
+                </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Digite sua senha"
+                  className="w-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="px-3 text-gray-500 focus:outline-none"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
+
             <button
               type="submit"
               className="w-full bg-green-600 text-white py-2 rounded-md font-semibold hover:bg-green-500 transition"
@@ -90,9 +114,9 @@ export default function Login() {
             </button>
           </form>
           <div className="mt-4 text-center">
-            <Link href="/register" className="text-sm text-green-600 hover:underline">
+            <a href="/register" className="text-sm text-green-600 hover:underline">
               Não tem uma conta? Cadastre-se
-            </Link>
+            </a>
           </div>
         </div>
       </div>
