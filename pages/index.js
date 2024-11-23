@@ -23,7 +23,15 @@ export default function Home() {
   const handlePrevSlide = () => setCurrentSlide((prev) => (prev - 1 + images.length) % images.length);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundImage: "url('/images/background.png')",
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+      }}
+    >
       {/* Cabeçalho Responsivo */}
       <header className="bg-gray-800 text-white shadow-md py-4 px-6">
         <div className="max-w-8xl mx-auto flex justify-between items-center">
@@ -74,9 +82,9 @@ export default function Home() {
       </section>
 
       {/* Seção Sobre com Transição de Cor */}
-      <motion.section 
+      <motion.div 
         id="about" 
-        className="py-12 bg-gray-100 text-center px-4"
+        className="py-12 text-center px-4"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -86,12 +94,12 @@ export default function Home() {
         <p className="max-w-2xl mx-auto text-gray-800 text-sm sm:text-base">
           O AutoEase foi criado para ajudar pessoas com condições autoimunes a monitorar seus sintomas e identificar fatores externos que possam influenciar sua saúde. Nossa plataforma oferece ferramentas fáceis de usar para registrar sintomas, analisar padrões e compartilhar relatórios personalizados com seus médicos.
         </p>
-      </motion.section>
+      </motion.div>
 
       {/* Destaques dos Serviços com Cartões */}
-      <motion.section 
+      <motion.div 
         id="services" 
-        className="py-12 bg-gray-100 text-center px-4"
+        className="py-12 text-center px-4"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -112,12 +120,12 @@ export default function Home() {
             <p className="text-gray-600 text-sm sm:text-base">Gere relatórios completos para compartilhar com seu médico e obter insights.</p>
           </div>
         </div>
-      </motion.section>
+      </motion.div>
 
       {/* Depoimentos com Efeito de Movimento */}
-      <motion.section 
+      <motion.div 
         id="testimonials" 
-        className="py-12 bg-gray-100 text-center px-4"
+        className="py-12 text-center px-4"
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
@@ -140,12 +148,12 @@ export default function Home() {
             <span className="block mt-2 font-semibold text-gray-800">— Maria Oliveira</span>
           </div>
         </div>
-      </motion.section>
+      </motion.div>
 
       {/* Galeria com Carrossel Controlado por Setas */}
-      <motion.section
+      <motion.div
         id="gallery"
-        className="py-12 bg-gray-100 text-center px-4"
+        className="py-12 text-center px-4"
         initial={{ opacity: 0, x: 50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
@@ -175,12 +183,12 @@ export default function Home() {
             &#10095;
           </button>
         </div>
-      </motion.section>
+      </motion.div>
 
       {/* Seção de Contato */}
-      <motion.section
+      <motion.div
         id="contact"
-        className="py-12 bg-gray-100 text-center px-4"
+        className="py-12 text-center px-4"
         initial={{ opacity: 0, x: -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8 }}
@@ -196,7 +204,7 @@ export default function Home() {
           <textarea placeholder="Sua mensagem" rows="4" className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
           <button type="submit" className="w-full bg-green-600 text-white py-2 rounded-md font-semibold hover:bg-green-500 transition">Enviar</button>
         </form>
-      </motion.section>
+      </motion.div>
 
       {/* Rodapé */}
       <footer className="bg-gray-800 text-white py-12">
