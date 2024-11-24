@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaPhone, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaUser } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Register() {
@@ -9,22 +9,66 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [disease, setDisease] = useState('');
+  const [diseases, setDiseases] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
-  const toggleMenu = () => setMenuOpen(!menuOpen);
   const router = useRouter();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const toggleMenu = () => setMenuOpen(!menuOpen);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const handleRegister = (e) => {
+  useEffect(() => {
+    // Chamada para buscar as doenças
+    const fetchDiseases = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8180/api/diseases');
+        if (response.ok) {
+          const data = await response.json();
+          setDiseases(data); // Popula a lista de doenças
+        } else {
+          console.error('Erro ao buscar doenças');
+        }
+      } catch (error) {
+        console.error('Erro ao conectar ao backend:', error);
+      }
+    };
+
+    fetchDiseases();
+  }, []);
+
+  const handleRegister = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       alert('As senhas não coincidem.');
       return;
     }
-    console.log('Dados de cadastro:', { name, email, password });
-    alert('Cadastro realizado com sucesso!');
+
+    try {
+      const response = await fetch('http://127.0.0.1:8181/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          username: name,
+          disease,
+        }),
+      });
+
+      if (response.ok) {
+        alert('Cadastro realizado com sucesso!');
+        router.push('/login'); // Redireciona para a tela de login
+      } else {
+        const data = await response.json();
+        alert(data.message || 'Erro ao realizar o cadastro.');
+      }
+    } catch (error) {
+      console.error('Erro ao conectar ao backend:', error);
+      alert('Erro na conexão com o servidor.');
+    }
   };
 
   return (
@@ -42,7 +86,7 @@ export default function Register() {
         <div className="max-w-8xl mx-auto flex justify-between items-center">
           <div
             className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => router.push("/")} // Navega para a tela inicial
+            onClick={() => router.push("/")}
           >
             <img src="/images/logo-health.png" alt="Logo AutoEase" className="w-8 h-8" />
             <h1 className="text-2xl font-bold text-green-400">AutoEase</h1>
@@ -72,9 +116,7 @@ export default function Register() {
             <div className="relative">
               <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">Nome</label>
               <div className="flex items-center border border-gray-300 rounded-md">
-                <span className="px-3 text-gray-500">
-                  <FaUser />
-                </span>
+                <span className="px-3 text-gray-500"><FaUser /></span>
                 <input
                   type="text"
                   id="name"
@@ -91,9 +133,7 @@ export default function Register() {
             <div className="relative">
               <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">E-mail</label>
               <div className="flex items-center border border-gray-300 rounded-md">
-                <span className="px-3 text-gray-500">
-                  <FaEnvelope />
-                </span>
+                <span className="px-3 text-gray-500"><FaEnvelope /></span>
                 <input
                   type="email"
                   id="email"
@@ -110,9 +150,7 @@ export default function Register() {
             <div className="relative">
               <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">Senha</label>
               <div className="flex items-center border border-gray-300 rounded-md">
-                <span className="px-3 text-gray-500">
-                  <FaLock />
-                </span>
+                <span className="px-3 text-gray-500"><FaLock /></span>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -136,9 +174,7 @@ export default function Register() {
             <div className="relative">
               <label htmlFor="confirmPassword" className="block text-gray-700 font-semibold mb-2">Confirme sua Senha</label>
               <div className="flex items-center border border-gray-300 rounded-md">
-                <span className="px-3 text-gray-500">
-                  <FaLock />
-                </span>
+                <span className="px-3 text-gray-500"><FaLock /></span>
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="confirmPassword"
@@ -149,6 +185,23 @@ export default function Register() {
                   required
                 />
               </div>
+            </div>
+
+            {/* Campo Doença */}
+            <div>
+              <label htmlFor="disease" className="block font-semibold text-gray-700">Doença</label>
+              <select
+                id="disease"
+                value={disease}
+                onChange={(e) => setDisease(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                required
+              >
+                <option value="">Selecione...</option>
+                {diseases.map((d) => (
+                  <option key={d.id} value={d.id}>{d.name}</option>
+                ))}
+              </select>
             </div>
 
             <button
@@ -172,7 +225,7 @@ export default function Register() {
           <div className="mb-8 md:mb-0 md:w-1/3">
             <h4 className="text-xl font-semibold mb-4 text-green-400">AutoEase</h4>
             <p className="text-gray-400 text-sm leading-relaxed">
-              O AutoEase ajuda você a monitorar seus sintomas e identificar fatores externos que afetam sua saúde, fornecendo uma plataforma prática e acessível para acompanhar seu bem-estar.
+              O AutoEase ajuda você a monitorar seus sintomas e identificar fatores externos que afetam sua saúde.
             </p>
           </div>
           <div className="md:w-1/3">
