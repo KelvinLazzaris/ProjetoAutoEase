@@ -1,0 +1,354 @@
+{
+	"info": {
+		"_postman_id": "dbceabe8-e9a6-4ef6-9321-315e89318ab3",
+		"name": "Projeto Kelvin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36281866"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"renan2@gmail.com\",\r\n    \"password\": \"gabrielo2\",\r\n    \"username\": \"Renan2\",\r\n    \"disease\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8181/auth/register",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8181",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"renan2@gmail.com\",\r\n    \"password\": \"gabrielo2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8181/auth/login",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8181",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar doenças",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2NTQwMzcsInVzZXJfaWQiOjJ9.nzmZkQOnNVXhcuve6jOgRZyNSwVDjBVTO2XdOvNPAL8",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/diseases/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"diseases",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar medicamentos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2Mzk0OTUsInVzZXJfaWQiOjl9.mOBBFHg1-xugmtOTJwzKdnjLpPVeiS2_QoYY5-8kw24",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/medicines/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"medicines",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar fatores ambientais",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2Mzk0OTUsInVzZXJfaWQiOjl9.mOBBFHg1-xugmtOTJwzKdnjLpPVeiS2_QoYY5-8kw24",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/environmental-factors/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"environmental-factors",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar intensidades",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2Mzk0OTUsInVzZXJfaWQiOjl9.mOBBFHg1-xugmtOTJwzKdnjLpPVeiS2_QoYY5-8kw24",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/intensities/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"intensities",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar sintomas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2Mzk0OTUsInVzZXJfaWQiOjl9.mOBBFHg1-xugmtOTJwzKdnjLpPVeiS2_QoYY5-8kw24",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/symptoms/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"symptoms",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserir novo cadastro diário",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2NDk3NDEsInVzZXJfaWQiOjF9.A21JiMbCCBqvy-aIGGjYM7jZSb867Gl8CGTsB2KYKNo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"medicines\": [1],\r\n    \"food\": \"Macarrão, Alface\",\r\n    \"environmentalFactors\": [1],\r\n    \"hoursSlept\": 7,\r\n    \"physicalActivityHours\": 1.5,\r\n    \"additionalInfo\": \"Me senti bem\",\r\n    \"crisis\": true,\r\n    \"crisisDuration\": 30,\r\n    \"symptoms\": [\r\n        {\r\n            \"symptomId\": 1,\r\n            \"timeRange\": \"09:00-10:00\",\r\n            \"occurrences\": 2,\r\n            \"intensityId\": 2\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/records/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"records",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exportar cadastros do usuário",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzI2NDk3NDEsInVzZXJfaWQiOjF9.A21JiMbCCBqvy-aIGGjYM7jZSb867Gl8CGTsB2KYKNo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": \"2022-01-01\",\r\n    \"to\": \"2024-12-31\",\r\n    \"crisisOnly\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8180/api/records/export",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8180",
+					"path": [
+						"api",
+						"records",
+						"export"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
