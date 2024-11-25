@@ -17,59 +17,39 @@ import {
   FaTwitter,
   FaLinkedin,
 } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 // Registro dos componentes necessários do Chart.js
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function Dashboard() {
   const router = useRouter();
+  const [chartData, setChartData] = useState(null);
+  const [data, setData] = useState([]);
 
-  // Função para obter os últimos 6 meses dinamicamente
-  const getLastSixMonths = () => {
-    const months = [];
-    const now = new Date(); // Data atual
-    for (let i = 5; i >= 0; i--) {
-      const month = new Date(now.getFullYear(), now.getMonth() - i, 1);
-      months.push(
-        month.toLocaleString("default", { month: "short" }) // Nome curto do mês (Ex: Jan, Feb)
-      );
-    }
-    return months;
+  const validateToken = () => {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          if (payload.exp * 1000 < Date.now()) {
+              alert('Sessão expirada. Faça login novamente.');
+              localStorage.removeItem('authToken');
+              router.push('/login');
+          }
+      } else {
+          alert('Você precisa estar logado para acessar esta página.');
+          router.push('/login');
+      }
   };
 
-  // Dados fictícios simulando registros para os últimos 6 meses
-  const data = {
-    labels: getLastSixMonths(),
-    datasets: [
-      {
-        label: "Registros Feitos",
-        data: [5, 10, 3, 7, 9, 6], // Substituir pelos dados reais ao integrar com o backend
-        backgroundColor: "rgba(34, 197, 94, 0.6)", // Verde AutoEase
-        borderColor: "rgba(34, 197, 94, 1)",
-        borderWidth: 1,
-      },
-    ],
-  };
+  useEffect(() => {
+      validateToken();
+  }, []);
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: "top",
-      },
-      title: {
-        display: true,
-        text: "Registros nos Últimos 6 Meses",
-      },
-    },
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    alert("Você foi deslogado.");
+    router.push("/login");
   };
 
   const handleRegisterSymptoms = () => {
@@ -95,20 +75,24 @@ export default function Dashboard() {
       }}
     >
       {/* Cabeçalho */}
-      <header className="bg-gray-800 text-white shadow-md py-4 px-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div
-            className="flex items-center space-x-2 cursor-pointer"
-            onClick={() => router.push("/")}
-          >
-            <img
-              src="/images/logo-health.png"
-              alt="Logo AutoEase"
-              className="w-8 h-8"
-            />
-            <h1 className="text-2xl font-bold text-green-400">AutoEase</h1>
-          </div>
+      <header className="bg-gray-800 text-white shadow-md py-4 px-6 flex justify-between items-center">
+        <div
+          className="flex items-center space-x-2 cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          <img
+            src="/images/logo-health.png"
+            alt="Logo AutoEase"
+            className="w-8 h-8"
+          />
+          <h1 className="text-2xl font-bold text-green-400">AutoEase</h1>
         </div>
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 text-white py-2 px-3 rounded-md hover:bg-red-500 transition"
+        >
+          Deslogar
+        </button>
       </header>
 
       {/* Conteúdo Principal */}
@@ -142,9 +126,23 @@ export default function Dashboard() {
               </button>
             </div>
 
-            {/* Gráfico ao lado */}
+            {/* Gráfico */}
             <div className="w-full lg:w-3/4 h-80 bg-gray-200 rounded-md">
-              <Bar data={data} options={options} />
+              {chartData ? (
+                <Bar
+                  data={chartData}
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: { position: "top" },
+                      title: { display: true, text: "Registros nos Últimos 6 Meses" },
+                    },
+                  }}
+                />
+              ) : (
+                <p className="text-center text-gray-500">Carregando dados...</p>
+              )}
             </div>
           </div>
         </div>
@@ -158,7 +156,9 @@ export default function Dashboard() {
               AutoEase
             </h4>
             <p className="text-gray-400 text-sm leading-relaxed">
-            O AutoEase ajuda você a monitorar seus sintomas e identificar fatores externos que afetam sua saúde, fornecendo uma plataforma prática e acessível para acompanhar seu bem-estar.
+              O AutoEase ajuda você a monitorar seus sintomas e identificar
+              fatores externos que afetam sua saúde, fornecendo uma plataforma
+              prática e acessível para acompanhar seu bem-estar.
             </p>
           </div>
           <div className="md:w-1/3">

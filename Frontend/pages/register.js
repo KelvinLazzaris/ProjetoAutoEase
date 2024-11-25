@@ -17,57 +17,60 @@ export default function Register() {
   const toggleMenu = () => setMenuOpen(!menuOpen);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  useEffect(() => {
-    // Chamada para buscar as doenças
-    const fetchDiseases = async () => {
-      try {
-        const response = await fetch('http://127.0.0.1:8180/api/diseases');
+  const fetchDiseases = async () => {
+    try {
+        const response = await fetch("http://127.0.0.1:8180/api/diseases");
         if (response.ok) {
-          const data = await response.json();
-          setDiseases(data); // Popula a lista de doenças
-        } else {
-          console.error('Erro ao buscar doenças');
+            const data = await response.json();
+            setDiseases(data);
         }
-      } catch (error) {
-        console.error('Erro ao conectar ao backend:', error);
-      }
+    } catch (error) {
+        console.error("Erro ao carregar doenças:", error);
+    } 
     };
 
-    fetchDiseases();
+    useEffect(() => {
+      fetchDiseases();
   }, []);
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
-      alert('As senhas não coincidem.');
-      return;
+        alert("As senhas não coincidem.");
+        return;
     }
 
-    try {
-      const response = await fetch('http://127.0.0.1:8181/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          username: name,
-          disease,
-        }),
-      });
+    const payload = {
+        email,
+        password,
+        username: name,
+        disease: parseInt(disease, 10),
+    };
 
-      if (response.ok) {
-        alert('Cadastro realizado com sucesso!');
-        router.push('/login'); // Redireciona para a tela de login
-      } else {
-        const data = await response.json();
-        alert(data.message || 'Erro ao realizar o cadastro.');
-      }
+    try {
+        const response = await fetch("http://127.0.0.1:8181/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const responseData = await response.json();
+
+        if (!response.ok) {
+            if (responseData.error === "500 (Internal Server Error)") {
+                alert("Erro: Este e-mail já está cadastrado.");
+            } else {
+                alert(`Erro: ${responseData.message || "Não foi possível realizar o cadastro."}`);
+            }
+        } else {
+            // Exibe mensagem bonita de sucesso
+            alert("🎉 Cadastro realizado com sucesso! Bem-vindo ao AutoEase.");
+            router.push("/login");
+        }
     } catch (error) {
-      console.error('Erro ao conectar ao backend:', error);
-      alert('Erro na conexão com o servidor.');
+        alert("Não foi possível conectar ao servidor.");
     }
   };
 
@@ -199,7 +202,7 @@ export default function Register() {
               >
                 <option value="">Selecione...</option>
                 {diseases.map((d) => (
-                  <option key={d.id} value={d.id}>{d.name}</option>
+                  <option key={d.id} value={d.id}>{d.name}</option> // d.id deve ser um número
                 ))}
               </select>
             </div>
