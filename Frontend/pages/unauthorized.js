@@ -20,7 +20,7 @@ export default function Unauthorized() {
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Acesso Negado</h2>
         <p className="text-gray-600 mb-6">
-          Você não tem permissão para acessar esta página. Por favor, faça login para continuar.
+          Você não tem permissão para acessar esta página (Você está deslogado ou seu tempo de sessão expirou). Por favor, faça login para continuar.
         </p>
         <button
           onClick={handleLoginRedirect}

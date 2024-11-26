@@ -1,14 +1,4 @@
 import { useRouter } from "next/router";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import {
   FaPhone,
   FaEnvelope,
@@ -19,32 +9,31 @@ import {
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
-// Registro dos componentes necessários do Chart.js
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
 export default function Dashboard() {
   const router = useRouter();
-  const [chartData, setChartData] = useState(null);
-  const [data, setData] = useState([]);
-
-  const validateToken = () => {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          if (payload.exp * 1000 < Date.now()) {
-              alert('Sessão expirada. Faça login novamente.');
-              localStorage.removeItem('authToken');
-              router.push('/login');
-          }
-      } else {
-          alert('Você precisa estar logado para acessar esta página.');
-          router.push('/login');
-      }
-  };
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-      validateToken();
-  }, []);
+    // Verifica e recupera o token do localStorage
+    const storedToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      const { token, expiryDate } = JSON.parse(storedToken);
+      // Verifica se o token expirou
+      if (new Date().getTime() > expiryDate) {
+        localStorage.removeItem("authToken");
+        router.push("/unauthorized"); // Redireciona para o login
+      } else {
+        setToken(token); // Armazena o token no estado local
+      }
+    } else {
+      router.push("/unauthorized"); // Redireciona para o login
+    }
+  }, [router]);
+
+  // Mensagem enquanto valida o token
+  if (!token) {
+    return <div>Carregando...</div>;
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -98,52 +87,29 @@ export default function Dashboard() {
       {/* Conteúdo Principal */}
       <main className="flex-grow py-12 px-4">
         <div className="max-w-7xl mx-auto bg-white p-10 rounded-lg shadow-lg">
-          {/* Título centralizado */}
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
             Dashboard
           </h2>
 
-          <div className="flex flex-col lg:flex-row lg:justify-between items-start lg:gap-8">
-            {/* Botões Laterais */}
-            <div className="space-y-4 mb-8 lg:mb-0">
-              <button
-                onClick={handleRegisterSymptoms}
-                className="bg-green-600 text-white py-2 px-3 rounded-md font-semibold hover:bg-green-500 transition w-full"
-              >
-                Registrar Sintomas
-              </button>
-              <button
-                onClick={handleViewHistory}
-                className="bg-green-600 text-white py-2 px-3 rounded-md font-semibold hover:bg-green-500 transition w-full"
-              >
-                Ver Histórico
-              </button>
-              <button
-                onClick={handleGenerateReports}
-                className="bg-green-600 text-white py-2 px-3 rounded-md font-semibold hover:bg-green-500 transition w-full"
-              >
-                Gerar Relatórios
-              </button>
-            </div>
-
-            {/* Gráfico */}
-            <div className="w-full lg:w-3/4 h-80 bg-gray-200 rounded-md">
-              {chartData ? (
-                <Bar
-                  data={chartData}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: { position: "top" },
-                      title: { display: true, text: "Registros nos Últimos 6 Meses" },
-                    },
-                  }}
-                />
-              ) : (
-                <p className="text-center text-gray-500">Carregando dados...</p>
-              )}
-            </div>
+          <div className="space-y-4">
+            <button
+              onClick={handleRegisterSymptoms}
+              className="bg-green-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-green-500 transition w-full"
+            >
+              Registrar Sintomas
+            </button>
+            {/*<button
+              onClick={handleViewHistory}
+              className="bg-green-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-green-500 transition w-full"
+            >
+              Ver Histórico
+            </button>*/}
+            <button
+              onClick={handleGenerateReports}
+              className="bg-green-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-green-500 transition w-full"
+            >
+              Gerar Relatórios
+            </button>
           </div>
         </div>
       </main>
